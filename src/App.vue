@@ -43,7 +43,7 @@ export default {
   },
   created() {
     console.log("requesting data from server ...");
-    fetch("https://coursework2-3145.herokuapp.com/collection/Product", {
+    fetch("https://coursework-two.herokuapp.com/collection/lessons", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

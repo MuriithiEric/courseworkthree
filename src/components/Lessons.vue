@@ -4,7 +4,7 @@
       <div v-for="product in products.slice(0, 4)" :key="product.id">
         <div class="product-container" id="Shop-product">
           <div class="product-box">
-            <h2 v-text="product.Subject"></h2>
+            <h2>{{ product.subject }}</h2>
             <div class="product-img">
               <figure>
                 <img v-bind:src="product.image" />
@@ -13,9 +13,14 @@
             <div class="product-details">
               <p v-html="product.Location"></p>
               <p>Price: {{ product.price }}</p>
+              <p>Spaces: {{ product.space }}</p>
 
               <div class="add-cart">
                 <button v-on:click="addToCart(product)">ADD TO CART</button>
+                <!-- Disabling the button if the lessons cannot be added -->
+                <!-- <button class="addToCart" disabled="disabled" v-else>
+                  Add to Cart
+                </button> -->
               </div>
             </div>
           </div>
@@ -34,6 +39,19 @@ export default {
     addToCart(product) {
       console.log("Added lesson", product.id);
       this.$emit("addProduct", product);
+    },
+    canAddToCart(product) {
+      return product.spaces > 0;
+    },
+    fetchlessons() {
+      //fetching the lessons from server
+      fetch("https://coursework-two.herokuapp.com/collection/lessons").then(
+        function (response) {
+          response.json().then(function (json) {
+            return json;
+          });
+        }
+      );
     },
   },
 };
@@ -108,7 +126,7 @@ html {
   flex-grow: 0.5;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #f7f7f7;
+  border: 8px solid #f7f7f7;
   border-radius: 20px;
   margin: 10px;
 }
